@@ -918,7 +918,7 @@ DetermineHumanDirection
    lda frameCount                   ; get the current frame count
    and #3                           ; make value 0 <= a <= 3
    cmp #ID_SCIENTIST + 1
-   beq CheckForETCollectingCandy    ; branch if out of human id range
+   jmp CheckForETCollectingCandy    ; branch if out of human id range
    tax                              ; move object id to x
    lda objectScreenId,x             ; get the object's screen id
    bpl .multiplyScreenIdBy8         ; branch if human is active
