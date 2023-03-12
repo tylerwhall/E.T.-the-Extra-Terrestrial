@@ -1830,7 +1830,7 @@ CheckToLandMothership
 .setMothershipColorPointer
    stx objectColorPtrs_0
 .doneLandMothership
-   jmp SetCurrentObjectXYCoordinates
+   jmp SetObjectsHorizPosition
 
 .mothershipLeavingWithoutET
    dec currentObjectVertPos         ; move current object up 1 pixel
@@ -2287,14 +2287,14 @@ DetermineObjectAnimationPtrs
 SetCurrentObjectXYCoordinates
    lda currentScreenId              ; get the current screen id
    cmp #ID_ET_HOME
-   beq .setObjectsHorizPosition
+   beq SetObjectsHorizPosition
    ldx currentObjectId              ; get the current object id
-   bmi .setObjectsHorizPosition
+   bmi SetObjectsHorizPosition
    lda objectVertPos,x
    sta currentObjectVertPos
    lda objectHorizPos,x
    sta currentObjectHorizPos
-.setObjectsHorizPosition
+SetObjectsHorizPosition
    lda etHorizPos                   ; get E.T.'s horizontal position
    pha                              ; push value on to stack
    lda #30
