@@ -2207,9 +2207,9 @@ SetETGraphicPointers
    bpl .determineETAnimationIndex   ; branch if E.T. is not running
    lsr
 .determineETAnimationIndex
-   and frameCount
-   bne .setETSpritePtrMSB
    ldx etAnimationIndex             ; get E.T. animation table index
+   and frameCount
+   bne .setETAnimationGraphicPtrs
    dex
    bpl .setETAnimationGraphicPtrs   ; branch if index didn't wrap around
    ldx #2
