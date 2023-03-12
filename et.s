@@ -2615,7 +2615,7 @@ LeftScreenIdHorizPosTable
    .byte 119,119,119,119,68,68
    
 RightScreenIdHorizPosTable
-   .byte 1,1,1,1,58,58
+   .byte 1,1,1,1,74,58
    
 UpperScreenIdHorizPosTable
    .byte 0,117,0,4,0,0
@@ -2627,7 +2627,7 @@ LeftScreenIdVertPosTable
    .byte 0,0,0,0,4,53
    
 RightScreenIdVertPosTable
-   .byte 0,0,0,0,4,53
+   .byte 0,0,0,0,1,53
    
 UpperScreenIdVertPosTable
    .byte 8,36,57,36,8,57
