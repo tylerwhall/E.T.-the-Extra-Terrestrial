@@ -622,6 +622,11 @@ HorizPositionObjects
    tax
    lda HMOVETable,x
    sta etHMOVEValue                 ; set E.T. horizontal move value
+
+   lda etVertPos
+   adc 7
+   sta $f6
+
    jmp JumpToDisplayKernel
 
 SetScreenIdFromStartingScreen
@@ -3114,22 +3119,25 @@ BANK1Start
    lda #0                     ; 2
    sta GRP0                   ; 3 = @13
    sta nextObjectGraphicData  ; 3
-   lda frameCount             ; 3         get the current frame count
-   lsr                        ; 2
-   and #$1F                   ; 2
-   ora #$40                   ; 2
-   sta COLUP0                 ; 3
-   lda temp                   ; 3         waste 3 cycles
-   nop                        ; 2
+   ora etPitStatus; $d9 ; 3
+   adc playerState; $e3 ; 3
+   adc $f6 ; 3
+   sta unknown ; $8b ; 3
    jmp .checkToDrawET         ; 3
 
 GameKernel
+   cpx unknown ; $8b                    ; 3
+   bne .twhstore              ; 2
+   bit CXP1FB                 ; 2
+   bvs .twhstore
+   sta CXCLR
+.twhstore
    cpx candyVertPos           ; 3
    php                        ; 3 = @41   enable/disable BALL
    cpx phonePieceMapVertPos   ; 3
    php                        ; 3 = @47   enable/disable M1
-   cpx etHeartVertPos         ; 3
-   php                        ; 3 = @53   enable/disable M0
+   ;cpx etHeartVertPos         ; 3
+   ;php                        ; 3 = @53   enable/disable M0
    inx                        ; 2         increment scan line count
    ldy nextETGraphicData      ; 3
 JumpIntoGameKernel
@@ -3137,8 +3145,8 @@ JumpIntoGameKernel
    sec                        ; 2
    sbc currentObjectVertPos   ; 3         subtract object vertical position
    cmp currentSpriteHeight    ; 3         compare with sprite height
-   sty GRP1                   ; 3         draw ET graphic data
    sta WSYNC
+   sty GRP1                   ; 3         draw ET graphic data
 ;--------------------------------------
    bcs .checkForEndGameKernel ; 2³        skip object draw if greater
    tay                        ; 2
@@ -3165,7 +3173,7 @@ JumpIntoGameKernel
    lda (etGraphicPointers0),y ; 5
    sta GRP1                   ; 3
 .drawNextObjectData
-   sta WSYNC
+   ;sta WSYNC
 ;--------------------------------------
    lda nextObjectGraphicData  ; 3
    sta GRP0                   ; 3 = @06
